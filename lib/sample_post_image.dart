@@ -8,9 +8,9 @@ String samplePostImagesToJson(List<SamplePostImages> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class SamplePostImages {
-  int? albumId;
-  int? id;
-  String? title;
+  int albumId;
+  int id;
+  String title;
   String url;
   String thumbnailUrl;
 

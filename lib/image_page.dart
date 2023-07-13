@@ -1,9 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
-import 'package:http/http.dart' as http;
-import 'package:netapp/sample_post_image.dart';
+import 'package:netapp/image_store.dart';
 
 class ImagePage extends StatefulWidget {
   const ImagePage({Key? key}) : super(key: key);
@@ -13,82 +10,74 @@ class ImagePage extends StatefulWidget {
 }
 
 class _ImagePageState extends State<ImagePage> {
-  final _samplePostsImages = ObservableList<SamplePostImages>();
+  late ImageStore imageStore;
 
   @override
   void initState() {
     super.initState();
-    getData();
+    imageStore = ImageStore();
+    imageStore.getData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
-        if (_samplePostsImages.isNotEmpty) {
-          return ListView.builder(
-            itemCount: _samplePostsImages.length,
-            itemBuilder: (context, index) {
-              return Container(
-                height: 670,
-                color: Colors.grey[100],
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                margin: const EdgeInsets.all(10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'AlbumId : ${_samplePostsImages[index].albumId}',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+    final _samplePostsImageList = imageStore.samplePostsImages;
+    return Scaffold(
+      body: Observer(
+        builder: (context) {
+          if (_samplePostsImageList.isNotEmpty) {
+            return ListView.builder(
+              itemCount: _samplePostsImageList.length,
+              itemBuilder: (context, index) {
+                final samplePostImage = _samplePostsImageList[index];
+
+                return Container(
+                  height: 670,
+                  color: Colors.grey[100],
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  margin: const EdgeInsets.all(10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'AlbumId : ${samplePostImage.albumId}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Id : ${_samplePostsImages[index].id}',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+                      Text(
+                        'Id : ${samplePostImage.id}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Title : ${_samplePostsImages[index].title}',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+                      Text(
+                        'Title : ${samplePostImage.title}',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Image.network(_samplePostsImages[index].url),
-                    Image.network(_samplePostsImages[index].thumbnailUrl),
-                  ],
-                ),
-              );
-            },
-          );
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
+                      Image.network(samplePostImage.url),
+                      Image.network(samplePostImage.thumbnailUrl),
+                    ],
+                  ),
+                );
+              },
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
-  }
-
-  Future<void> getData() async {
-    final response = await http
-        .get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body.toString());
-      final newPostsImages = List<SamplePostImages>.from(
-          data.map((x) => SamplePostImages.fromJson(x)));
-
-      _samplePostsImages.addAll(newPostsImages);
-    }
   }
 }
