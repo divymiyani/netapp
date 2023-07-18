@@ -12,6 +12,7 @@ abstract class _ImageStore with Store {
   int itemsPerPage = 10;
   int loadedPages = 0;
   int loadedPagesLimit = 6;
+  int totalPages = 10;
 
   @observable
   ObservableList<SamplePostImages> samplePostsImages =
