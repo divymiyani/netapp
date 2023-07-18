@@ -110,17 +110,20 @@ class _ImagePageState extends State<ImagePage> {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
+                } else if (imageStore.loadedPagesLimit !=
+                    imageStore.loadedPages) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 } else {
                   return const Center(
-                    child: Text('No data available.'),
+                    child: Text(''),
                   );
                 }
               },
             );
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: Text(''));
           }
         },
       ),

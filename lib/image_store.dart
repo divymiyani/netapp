@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:netapp/sample_post_image.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +11,7 @@ abstract class _ImageStore with Store {
   int currentPage = 1;
   int itemsPerPage = 10;
   int loadedPages = 0;
+  int loadedPagesLimit = 6;
 
   @observable
   ObservableList<SamplePostImages> samplePostsImages =
@@ -40,9 +40,16 @@ abstract class _ImageStore with Store {
 
   @action
   void loadMoreData() {
-    if (loadedPages < 10) {
+    if (loadedPages < loadedPagesLimit) {
       getData();
     }
+  }
+
+  @action
+  void reset() {
+    currentPage = 1;
+    loadedPages = 0;
+    samplePostsImages.clear();
   }
 }
 
@@ -50,10 +57,7 @@ abstract class _ImageStore with Store {
 
 
 
-
-
 // import 'dart:convert';
-// import 'package:flutter/material.dart';
 // import 'package:mobx/mobx.dart';
 // import 'package:netapp/sample_post_image.dart';
 // import 'package:http/http.dart' as http;
@@ -65,8 +69,8 @@ abstract class _ImageStore with Store {
 // abstract class _ImageStore with Store {
 //   int currentPage = 1;
 //   int itemsPerPage = 10;
-//   int totalPages = 10;
 //   int loadedPages = 0;
+//   int loadedPagesLimit = 6;
 
 //   @observable
 //   ObservableList<SamplePostImages> samplePostsImages =
@@ -79,30 +83,31 @@ abstract class _ImageStore with Store {
 
 //   @action
 //   Future<void> getData() async {
-//     if (currentPage <= totalPages) {
-//       final response = await http.get(Uri.parse(
-//           'https://jsonplaceholder.typicode.com/users?_page=$currentPage&_limit=$itemsPerPage'));
+//     final response = await http.get(Uri.parse(
+//         'https://jsonplaceholder.typicode.com/users?_page=$currentPage&_limit=$itemsPerPage'));
 
-//       if (response.statusCode == 200) {
-//         final data = jsonDecode(response.body);
-//         final newPostsImages = List<SamplePostImages>.from(
-//             data.map((x) => SamplePostImages.fromJson(x)));
+//     if (response.statusCode == 200) {
+//       final data = jsonDecode(response.body);
+//       final newPostsImages = List<SamplePostImages>.from(
+//           data.map((x) => SamplePostImages.fromJson(x)));
 
-//         setSamplePostsImages(newPostsImages);
-//       }
-
-//       loadedPages++;
-//       if (loadedPages == totalPages) {
-//         currentPage = 1;
-//         loadedPages = 0;
-//       } else {
-//         Text('no more data!');
-//       }
+//       setSamplePostsImages(newPostsImages);
 //     }
+
+//     loadedPages++;
 //   }
 
 //   @action
 //   void loadMoreData() {
-//     getData();
+//     if (loadedPages < loadedPagesLimit && currentPage <= loadedPages) {
+//       getData();
+//     }
+//   }
+
+//   @action
+//   void showRemainingPages() {
+//     if (loadedPages >= loadedPagesLimit) {
+//       currentPage = loadedPages + 1;
+//     }
 //   }
 // }
