@@ -11,8 +11,7 @@ abstract class _ImageStore with Store {
   int currentPage = 1;
   int itemsPerPage = 10;
   int loadedPages = 0;
-  int loadedPagesLimit = 6;
-  int totalPages = 10;
+  int loadedPagesLimit = 3;
 
   @observable
   ObservableList<SamplePostImages> samplePostsImages =
@@ -44,13 +43,6 @@ abstract class _ImageStore with Store {
     if (loadedPages < loadedPagesLimit) {
       getData();
     }
-  }
-
-  @action
-  void reset() {
-    currentPage = 1;
-    loadedPages = 0;
-    samplePostsImages.clear();
   }
 }
 

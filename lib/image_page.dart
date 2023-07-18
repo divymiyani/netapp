@@ -106,24 +106,16 @@ class _ImagePageState extends State<ImagePage> {
                       ],
                     ),
                   );
-                } else if (imageStore.currentPage != 1) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
                 } else if (imageStore.loadedPagesLimit !=
                     imageStore.loadedPages) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else {
-                  return const Center(
-                    child: Text(''),
-                  );
                 }
               },
             );
           } else {
-            return const Center(child: Text(''));
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
