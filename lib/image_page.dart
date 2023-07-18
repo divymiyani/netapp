@@ -112,6 +112,7 @@ class _ImagePageState extends State<ImagePage> {
                     child: CircularProgressIndicator(),
                   );
                 }
+                return null;
               },
             );
           } else {
