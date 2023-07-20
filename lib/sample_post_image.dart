@@ -1,12 +1,8 @@
-import 'dart:convert';
+import 'package:json_annotation/json_annotation.dart';
 
-List<SamplePostImages> samplePostImagesFromJson(String str) =>
-    List<SamplePostImages>.from(
-        json.decode(str).map((x) => SamplePostImages.fromJson(x)));
+part 'sample_post_image.g.dart';
 
-String samplePostImagesToJson(List<SamplePostImages> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
+@JsonSerializable(explicitToJson: true)
 class SamplePostImages {
   int id;
   String name;
@@ -29,29 +25,12 @@ class SamplePostImages {
   });
 
   factory SamplePostImages.fromJson(Map<String, dynamic> json) =>
-      SamplePostImages(
-        id: json["id"],
-        name: json["name"],
-        username: json["username"],
-        email: json["email"],
-        address: Address.fromJson(json["address"]),
-        phone: json["phone"],
-        website: json["website"],
-        company: Company.fromJson(json["company"]),
-      );
+      _$SamplePostImagesFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "username": username,
-        "email": email,
-        "address": address.toJson(),
-        "phone": phone,
-        "website": website,
-        "company": company.toJson(),
-      };
+  Map<String, dynamic> toJson() => _$SamplePostImagesToJson(this);
 }
 
+@JsonSerializable()
 class Address {
   String street;
   String suite;
@@ -66,24 +45,13 @@ class Address {
     required this.zipcode,
     required this.geo,
   });
+  factory Address.fromJson(Map<String, dynamic> json) =>
+      _$AddressFromJson(json); // Deserialize JSON
 
-  factory Address.fromJson(Map<String, dynamic> json) => Address(
-        street: json["street"],
-        suite: json["suite"],
-        city: json["city"],
-        zipcode: json["zipcode"],
-        geo: Geo.fromJson(json["geo"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "street": street,
-        "suite": suite,
-        "city": city,
-        "zipcode": zipcode,
-        "geo": geo.toJson(),
-      };
+  Map<String, dynamic> toJson() => _$AddressToJson(this); // Serialize to JSON
 }
 
+@JsonSerializable()
 class Geo {
   String lat;
   String lng;
@@ -92,18 +60,12 @@ class Geo {
     required this.lat,
     required this.lng,
   });
+  factory Geo.fromJson(Map<String, dynamic> json) => _$GeoFromJson(json);
 
-  factory Geo.fromJson(Map<String, dynamic> json) => Geo(
-        lat: json["lat"],
-        lng: json["lng"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "lat": lat,
-        "lng": lng,
-      };
+  Map<String, dynamic> toJson() => _$GeoToJson(this);
 }
 
+@JsonSerializable()
 class Company {
   String name;
   String catchPhrase;
@@ -114,19 +76,148 @@ class Company {
     required this.catchPhrase,
     required this.bs,
   });
+  factory Company.fromJson(Map<String, dynamic> json) =>
+      _$CompanyFromJson(json); // Deserialize JSON
 
-  factory Company.fromJson(Map<String, dynamic> json) => Company(
-        name: json["name"],
-        catchPhrase: json["catchPhrase"],
-        bs: json["bs"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "catchPhrase": catchPhrase,
-        "bs": bs,
-      };
+  Map<String, dynamic> toJson() => _$CompanyToJson(this); // Serialize to JSON
 }
+
+
+
+
+
+
+
+
+// import 'dart:convert';
+
+// List<SamplePostImages> samplePostImagesFromJson(String str) =>
+//     List<SamplePostImages>.from(
+//         json.decode(str).map((x) => SamplePostImages.fromJson(x)));
+
+// String samplePostImagesToJson(List<SamplePostImages> data) =>
+//     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+// class SamplePostImages {
+//   int id;
+//   String name;
+//   String username;
+//   String email;
+//   Address address;
+//   String phone;
+//   String website;
+//   Company company;
+
+//   SamplePostImages({
+//     required this.id,
+//     required this.name,
+//     required this.username,
+//     required this.email,
+//     required this.address,
+//     required this.phone,
+//     required this.website,
+//     required this.company,
+//   });
+
+//   factory SamplePostImages.fromJson(Map<String, dynamic> json) =>
+//       SamplePostImages(
+//         id: json["id"],
+//         name: json["name"],
+//         username: json["username"],
+//         email: json["email"],
+//         address: Address.fromJson(json["address"]),
+//         phone: json["phone"],
+//         website: json["website"],
+//         company: Company.fromJson(json["company"]),
+//       );
+
+//   Map<String, dynamic> toJson() => {
+//         "id": id,
+//         "name": name,
+//         "username": username,
+//         "email": email,
+//         "address": address.toJson(),
+//         "phone": phone,
+//         "website": website,
+//         "company": company.toJson(),
+//       };
+// }
+
+// class Address {
+//   String street;
+//   String suite;
+//   String city;
+//   String zipcode;
+//   Geo geo;
+
+//   Address({
+//     required this.street,
+//     required this.suite,
+//     required this.city,
+//     required this.zipcode,
+//     required this.geo,
+//   });
+
+//   factory Address.fromJson(Map<String, dynamic> json) => Address(
+//         street: json["street"],
+//         suite: json["suite"],
+//         city: json["city"],
+//         zipcode: json["zipcode"],
+//         geo: Geo.fromJson(json["geo"]),
+//       );
+
+//   Map<String, dynamic> toJson() => {
+//         "street": street,
+//         "suite": suite,
+//         "city": city,
+//         "zipcode": zipcode,
+//         "geo": geo.toJson(),
+//       };
+// }
+
+// class Geo {
+//   String lat;
+//   String lng;
+
+//   Geo({
+//     required this.lat,
+//     required this.lng,
+//   });
+
+//   factory Geo.fromJson(Map<String, dynamic> json) => Geo(
+//         lat: json["lat"],
+//         lng: json["lng"],
+//       );
+
+//   Map<String, dynamic> toJson() => {
+//         "lat": lat,
+//         "lng": lng,
+//       };
+// }
+
+// class Company {
+//   String name;
+//   String catchPhrase;
+//   String bs;
+
+//   Company({
+//     required this.name,
+//     required this.catchPhrase,
+//     required this.bs,
+//   });
+
+//   factory Company.fromJson(Map<String, dynamic> json) => Company(
+//         name: json["name"],
+//         catchPhrase: json["catchPhrase"],
+//         bs: json["bs"],
+//       );
+
+//   Map<String, dynamic> toJson() => {
+//         "name": name,
+//         "catchPhrase": catchPhrase,
+//         "bs": bs,
+//       };
+// }
 
 
 

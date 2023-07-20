@@ -37,11 +37,22 @@ mixin _$ImageStore on _ImageStore, Store {
       ActionController(name: '_ImageStore', context: context);
 
   @override
-  void setSamplePostsImages(List<SamplePostImages> images) {
+  void setSamplePostsImages(List<SamplePostImages> data) {
     final _$actionInfo = _$_ImageStoreActionController.startAction(
         name: '_ImageStore.setSamplePostsImages');
     try {
-      return super.setSamplePostsImages(images);
+      return super.setSamplePostsImages(data);
+    } finally {
+      _$_ImageStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void loadMoreData() {
+    final _$actionInfo = _$_ImageStoreActionController.startAction(
+        name: '_ImageStore.loadMoreData');
+    try {
+      return super.loadMoreData();
     } finally {
       _$_ImageStoreActionController.endAction(_$actionInfo);
     }
