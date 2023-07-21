@@ -30,7 +30,7 @@ class SamplePostImages {
   Map<String, dynamic> toJson() => _$SamplePostImagesToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Address {
   String street;
   String suite;
@@ -46,12 +46,12 @@ class Address {
     required this.geo,
   });
   factory Address.fromJson(Map<String, dynamic> json) =>
-      _$AddressFromJson(json); // Deserialize JSON
+      _$AddressFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AddressToJson(this); // Serialize to JSON
+  Map<String, dynamic> toJson() => _$AddressToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Geo {
   String lat;
   String lng;
@@ -65,7 +65,7 @@ class Geo {
   Map<String, dynamic> toJson() => _$GeoToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Company {
   String name;
   String catchPhrase;
@@ -77,9 +77,9 @@ class Company {
     required this.bs,
   });
   factory Company.fromJson(Map<String, dynamic> json) =>
-      _$CompanyFromJson(json); // Deserialize JSON
+      _$CompanyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CompanyToJson(this); // Serialize to JSON
+  Map<String, dynamic> toJson() => _$CompanyToJson(this);
 }
 
 
